@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -11,22 +10,27 @@ import { getUsers } from "./controllers/userController.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import promoRoutes from "./routes/promoRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-dotenv.config();
+
+// Only load dotenv locally for development
+if (process.env.NODE_ENV !== "production") {
+  import('dotenv').then(dotenv => dotenv.config());
+}
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-
+// Debug logs to confirm environment variables
 console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY ? "Loaded" : "Not Loaded");
 console.log("Stripe Publishable Key:", process.env.STRIPE_PUBLISHABLE_KEY ? "Loaded" : "Not Loaded");
-
+console.log("Supabase URL:", process.env.SUPABASE_URL ? "Loaded" : "Not Loaded");
+console.log("Supabase Service Role Key:", process.env.SUPABASE_SERVICE_ROLE_KEY ? "Loaded" : "Not Loaded");
 
 app.get("/test", (req, res) => {
   res.send("Server is running!");
 });
 
-
+// API routes
 app.use("/api/auth", userRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/rides", rideRoutes);
@@ -39,6 +43,7 @@ app.get("/", (req, res) => {
   res.send("🚀 Uber Clone Backend Running!");
 });
 
+// Socket.io setup
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -53,7 +58,7 @@ io.on("connection", (socket) => {
   });
 });
 
-
+// Start server
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
