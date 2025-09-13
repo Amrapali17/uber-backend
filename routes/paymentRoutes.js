@@ -5,12 +5,11 @@ import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-// User actions
+
 router.post("/create", authMiddleware, createPayment);
 router.post("/confirm", authMiddleware, confirmPayment);
-router.get("/", authMiddleware, getPayments); // Only user's own payments
+router.get("/", authMiddleware, getPayments); 
 
-// Admin route: view all payments
 router.get("/all", authMiddleware, adminMiddleware, getPayments); 
 
 export default router;

@@ -4,8 +4,8 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Public / Auth routes
-router.get("/", authMiddleware, getPromoCodes); // Get all promo codes
-router.post("/", authMiddleware, addPromoCode); // Add promo code (admin only)
+
+router.get("/", authMiddleware, getPromoCodes); 
+router.post("/", authMiddleware, addPromoCode); 
 
 export default router;

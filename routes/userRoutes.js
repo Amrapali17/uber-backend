@@ -5,15 +5,14 @@ import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-// Public routes
+
 router.post("/signup", signupUser);
 router.post("/login", loginUser);
 
-// Admin-only routes
 router.get("/users", authMiddleware, adminMiddleware, getUsers);
 
-// Logged-in user routes
-router.get("/profile", authMiddleware, getProfile);  // ✅ corrected
+
+router.get("/profile", authMiddleware, getProfile);  
 router.put("/profile", authMiddleware, updateProfile);
 
 export default router;

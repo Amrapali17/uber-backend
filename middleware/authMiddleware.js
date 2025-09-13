@@ -6,13 +6,13 @@ export const authMiddleware = async (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  // Get Supabase user
+
   const { data: supUser, error } = await supabase.auth.getUser(token);
   if (error || !supUser.user) {
     return res.status(401).json({ error: "Invalid or expired token" });
   }
 
-  // Fetch role from users table
+
   const { data: userData, error: userError } = await supabase
     .from("users")
     .select("*")
@@ -23,11 +23,11 @@ export const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ error: "User not found" });
   }
 
-  // Attach user info to request
+
   req.user = {
     id: userData.id,
     email: userData.email,
-    role: userData.role, // <- this now correctly reflects admin/driver/rider
+    role: userData.role, 
     name: userData.name
   };
 

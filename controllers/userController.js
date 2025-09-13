@@ -53,7 +53,7 @@ export const getUsers = async (req, res) => {
   }
 };
 
-// ✅ Separate GET /profile handler
+
 export const getProfile = async (req, res) => {
   try {
     const { id } = req.user;
@@ -71,7 +71,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-// ✅ Separate PUT /profile handler
+
 export const updateProfile = async (req, res) => {
   try {
     const { id } = req.user;

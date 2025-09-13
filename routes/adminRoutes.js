@@ -1,4 +1,4 @@
-// routes/adminRoutes.js
+
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
@@ -8,16 +8,14 @@ import { getPayments } from "../controllers/paymentController.js";
 
 const router = express.Router();
 
-// All routes protected by auth + admin check
 router.use(authMiddleware, adminMiddleware);
 
-// Users
+
 router.get("/users", getUsers);
 
-// Rides
-router.get("/rides", getRides); // Admin sees all rides
+router.get("/rides", getRides); 
 
-// Payments
-router.get("/payments", getPayments); // Admin sees all payments
+
+router.get("/payments", getPayments); 
 
 export default router;
