@@ -1,4 +1,3 @@
-// 1️⃣ Import and configure dotenv first, at the very top
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -13,15 +12,15 @@ import rideRoutes from "./routes/rideRoutes.js";
 import { getUsers } from "./controllers/userController.js";  
 import notificationRoutes from "./routes/notificationRoutes.js";
 import promoRoutes from "./routes/promoRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-
-// ✅ Remove any dynamic dotenv import
-// if (process.env.NODE_ENV !== "production") {
-//   import('dotenv').then(dotenv => dotenv.config());
-// }
+import adminRoutes from "./routes/admin.js";
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
+
 app.use(express.json());
 
 console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY ? "Loaded" : "Not Loaded");
@@ -45,9 +44,13 @@ app.get("/", (req, res) => {
   res.send("🚀 Uber Clone Backend Running!");
 });
 
+const PORT = process.env.PORT || 5000;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: "*" },
+  cors: {
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+  },
 });
 
 io.on("connection", (socket) => {
@@ -57,7 +60,6 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
