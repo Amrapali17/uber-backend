@@ -12,7 +12,7 @@ import rideRoutes from "./routes/rideRoutes.js";
 import { getUsers } from "./controllers/userController.js";  
 import notificationRoutes from "./routes/notificationRoutes.js";
 import promoRoutes from "./routes/promoRoutes.js";
-import adminRoutes from "./routes/admin.js";
+ import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
